@@ -27,7 +27,7 @@ case " ${ID:-} ${ID_LIKE:-} " in
     step "Installing system packages (GTK4, libadwaita, PyGObject, sound player, pipx); sudo may ask for your password"
     $SUDO apt-get update -qq || say "apt-get update failed, continuing"
     $SUDO apt-get install -y python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 pipewire-bin pipx
-    $SUDO apt-get install -y gir1.2-gtk4layershell-1.0 2>/dev/null || say "optional gtk4-layer-shell not available, skipping" ;;
+    $SUDO apt-get install -y libgtk4-layer-shell0 gir1.2-gtk4layershell-1.0 2>/dev/null || say "optional gtk4-layer-shell not available, skipping" ;;
   *" fedora "*|*" rhel "*)    say "Found: Fedora family"
     step "Installing system packages (GTK4, libadwaita, PyGObject, sound player, pipx); sudo may ask for your password"
     $SUDO dnf install -y python3-gobject gtk4 libadwaita pipewire-utils pipx

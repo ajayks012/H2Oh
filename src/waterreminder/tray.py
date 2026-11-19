@@ -1,6 +1,8 @@
 """Minimal StatusNotifierItem + dbusmenu over Gio D-Bus. Silent no-op if no tray host exists."""
 import logging
 import os
+import shutil
+from pathlib import Path
 
 from gi.repository import Gio, GLib
 
@@ -37,6 +39,7 @@ class Tray:
     def __init__(self, icon_dir, items, on_click):
         self.items, self.on_click, self.icon_dir, self.rev = items, on_click, icon_dir, 1
         self.con = None
+        self._install_icon()
         try:
             self.con = Gio.bus_get_sync(Gio.BusType.SESSION)
             self.name = f"org.kde.StatusNotifierItem-{os.getpid()}-1"
@@ -46,6 +49,17 @@ class Tray:
             Gio.bus_watch_name_on_connection(self.con, WATCHER[0], Gio.BusNameWatcherFlags.NONE, self._register, None)
         except GLib.Error as e:
             log.warning("tray: unavailable (%s)", e.message)
+
+    def _install_icon(self):
+        """Panels resolve IconName through the icon theme, so put the icon in the user's hicolor theme."""
+        try:
+            dst = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")) / "icons/hicolor/scalable/apps/waterreminder.svg"
+            src = Path(self.icon_dir) / "waterreminder.svg"
+            if not dst.exists() or dst.stat().st_size != src.stat().st_size:
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(src, dst)
+        except OSError as e:
+            log.warning("tray: cannot install icon: %s", e)
 
     def _register(self, con, *_):
         con.call(WATCHER[0], WATCHER[1], WATCHER[2], "RegisterStatusNotifierItem", GLib.Variant("(s)", (self.name,)), None, Gio.DBusCallFlags.NONE, 2000, None, lambda *a: None)

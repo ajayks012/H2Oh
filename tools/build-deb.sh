@@ -21,7 +21,7 @@ Section: utils
 Priority: optional
 Architecture: all
 Depends: python3 (>= 3.11), python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1, pipewire-bin | pulseaudio-utils
-Recommends: gir1.2-gtk4layershell-1.0
+Recommends: libgtk4-layer-shell0, gir1.2-gtk4layershell-1.0
 Maintainer: H2Oh! <noreply@example.invalid>
 Description: Drink-water reminder with a big popup and sound
  Reminds you to drink water during configured work hours.

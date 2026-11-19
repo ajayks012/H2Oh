@@ -81,7 +81,11 @@ class Popup(Gtk.Window):
         self.setup_layer(cfg)
 
     def setup_layer(self, cfg):
-        if LS is None or not LS.is_supported():
+        try:
+            if LS is None or not LS.is_supported():
+                return
+        except GLib.Error as e:  # typelib present but libgtk4-layer-shell.so missing: use a plain window
+            print(f"layer-shell unavailable ({e.message}); using a normal window", file=sys.stderr)
             return
         LS.init_for_window(self)
         LS.set_layer(self, LS.Layer.OVERLAY)

@@ -12,7 +12,7 @@ Built with Python 3.11+, PyGObject (GTK4 + libadwaita), plain GLib timers. No ot
 ## Install
 
 System packages (Ubuntu/Debian names): `python3-gi gir1.2-gtk-4.0 gir1.2-adw-1` plus `pipewire-bin` or `pulseaudio-utils`
-(for `pw-play`/`paplay`). Optional: `gir1.2-gtk4layershell-1.0` (overlay popup on KDE/Sway/Hyprland), `wmctrl` (keep-above on X11).
+(for `pw-play`/`paplay`). Optional: `libgtk4-layer-shell0 gir1.2-gtk4layershell-1.0` (overlay popup on KDE/Sway/Hyprland), `wmctrl` (keep-above on X11).
 Fedora: `python3-gobject gtk4 libadwaita`; Arch: `python-gobject gtk4 libadwaita`.
 
 **pipx / pip** (PyGObject must come from the distro, so allow system site packages):
@@ -38,7 +38,7 @@ Only PyGObject + GTK4 + libadwaita and a sound player (`pw-play` or `paplay`) ar
 
 | Distro | Dependencies |
 |---|---|
-| Ubuntu / Debian / Mint | `sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 pipewire-bin pipx` (optional: `gir1.2-gtk4layershell-1.0 wmctrl`) |
+| Ubuntu / Debian / Mint | `sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 pipewire-bin pipx` (optional: `libgtk4-layer-shell0 gir1.2-gtk4layershell-1.0 wmctrl`) |
 | Fedora | `sudo dnf install python3-gobject gtk4 libadwaita pipewire-utils pipx` (optional: `gtk4-layer-shell`) |
 | Arch / Manjaro | `sudo pacman -S python-gobject gtk4 libadwaita libpipewire python-pipx` (optional: `gtk4-layer-shell`) |
 | openSUSE | `sudo zypper install python3-gobject-Gdk typelib-1_0-Gtk-4_0 typelib-1_0-Adw-1 pipewire-tools python3-pipx` |
