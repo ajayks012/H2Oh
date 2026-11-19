@@ -155,6 +155,23 @@ pkill -f waterreminderd; unset WATERREMINDER_CONFIG; rm -f /tmp/wr-test.toml
 4. **Optional, delete your data**: `rm -rf ~/.config/waterreminder ~/.local/state/waterreminder` (settings and the daily counter; uninstalling keeps them).
 5. **Optional, remove the distro packages** the installer added (python3-gi, GTK4, libadwaita, pipx): only if nothing else uses them, e.g. `sudo apt autoremove`.
 
+## After installing: launch and first-time setup
+
+1. **Open Settings**: search for **H2Oh!** in your applications menu (the install script adds it; log out and in if it does not show up yet),
+   or run `waterreminder-settings` in a terminal. If the command is not found, open a new terminal or run `export PATH="$HOME/.local/bin:$PATH"`.
+   The `.deb` also adds the menu entry. A plain `pipx install` does not, so use `./install.sh` or the terminal command.
+2. **Set your schedule**: work days, start/end time, interval, snooze and sound. Every change saves immediately.
+3. **Check it works**: click *Show now* in Settings (or run `waterreminder-popup --test`). You should see the big popup and hear the sound.
+4. **Start the reminders**: Settings does not run them, the background daemon does.
+   - Easiest: turn on *Start at login* in Settings (or answer Y in the installer), then log out and back in.
+   - Or right now: `waterreminderd &`
+   - Check it is running: `pgrep -af waterreminderd`
+5. **Wait for the next slot**: the first popup appears at your next scheduled time (default Mon-Fri, 09:00-18:00, every 45 min).
+   To see one quickly, set the interval to 1 minute while testing.
+6. **Pause or quit**: use the tray menu if your desktop shows it (Pause 1 h / until tomorrow, Settings, Quit), or the *Pause* buttons in Settings, or `pkill -f waterreminderd`.
+
+If nothing appears, see *Known limitations* below. The most common causes are the daemon not running, being outside your work hours or days, or a paused/disabled setting.
+
 ## Use
 ```
 waterreminderd &              # start the daemon (or enable "Start at login" in settings)

@@ -7,7 +7,7 @@ set -eu
 REPO="${REPO:-https://github.com/ajayks012/H2Oh}"   # used when run outside a checkout (e.g. via curl)
 
 say() { printf '    %s\n' "$*"; }
-N=0; TOTAL=7
+N=0; TOTAL=8
 step() { N=$((N+1)); printf '\n[%s/%s] %s\n' "$N" "$TOTAL" "$*"; }
 die() { printf 'error: %s\n' "$*" >&2; exit 1; }
 SUDO=""
@@ -15,7 +15,7 @@ if [ "$(id -u)" -ne 0 ]; then command -v sudo >/dev/null || die "sudo not found:
 
 if [ "${1:-}" = "--uninstall" ]; then
   pipx uninstall waterreminder 2>/dev/null || true
-  rm -f "$HOME/.config/autostart/waterreminder.desktop"
+  rm -f "$HOME/.config/autostart/waterreminder.desktop" "$HOME/.local/share/applications/waterreminder.desktop" "$HOME/.local/share/icons/hicolor/scalable/apps/waterreminder.svg"
   say "removed (config kept in ~/.config/waterreminder)"; exit 0
 fi
 
@@ -58,6 +58,17 @@ BIN="$(pipx environment --value PIPX_BIN_DIR 2>/dev/null || true)"; BIN="${BIN:-
 [ -x "$BIN/waterreminderd" ] || die "install finished but $BIN/waterreminderd is missing; see the pipx output above"
 say "OK: commands found in $BIN"
 
+step "Adding H2Oh! to your applications menu"
+APPS="$HOME/.local/share/applications"; ICONS="$HOME/.local/share/icons/hicolor/scalable/apps"
+VENVS="$(pipx environment --value PIPX_LOCAL_VENVS 2>/dev/null || true)"; VENVS="${VENVS:-$HOME/.local/share/pipx/venvs}"
+mkdir -p "$APPS" "$ICONS"
+ICON_SRC="$("$VENVS/waterreminder/bin/python" -c 'import waterreminder.audio as a; print(a.DATA / "icons" / "waterreminder.svg")' 2>/dev/null || true)"
+if [ -f "$ICON_SRC" ]; then cp "$ICON_SRC" "$ICONS/waterreminder.svg"; say "OK: icon -> $ICONS/waterreminder.svg"; else say "icon not found, menu entry will use a generic icon"; fi
+printf '[Desktop Entry]\nType=Application\nName=H2Oh!\nGenericName=Hydration reminder\nComment=Drink-water reminders with a big popup and sound\nExec=%s/waterreminder-settings\nIcon=waterreminder\nTerminal=false\nCategories=Utility;GTK;\nKeywords=water;drink;reminder;health;\n' "$BIN" > "$APPS/waterreminder.desktop"
+say "OK: menu entry -> $APPS/waterreminder.desktop"
+command -v update-desktop-database >/dev/null && update-desktop-database "$APPS" 2>/dev/null || true
+command -v gtk-update-icon-cache >/dev/null && gtk-update-icon-cache -q -t "$HOME/.local/share/icons/hicolor" 2>/dev/null || true
+
 step "Autostart at login"
 printf '    Start H2Oh! at login? [Y/n] '
 { read -r a </dev/tty; } 2>/dev/null || a=y
@@ -71,7 +82,8 @@ esac
 step "Done. Summary"
 say "Installed commands : $BIN/waterreminderd  $BIN/waterreminder-popup  $BIN/waterreminder-settings"
 say "Config (created on first run): ~/.config/waterreminder/config.toml"
-say "Start now            : $BIN/waterreminderd &"
+say "Open it            : search \"H2Oh!\" in your applications menu (opens Settings; log out/in if it does not appear yet)"
+say "Start reminders now : $BIN/waterreminderd &   (starts automatically at login if you enabled autostart)"
 say "Settings             : $BIN/waterreminder-settings"
 say "Test the popup       : $BIN/waterreminder-popup --test"
 say "Uninstall            : ./install.sh --uninstall   (or: pipx uninstall waterreminder)"
