@@ -1,10 +1,10 @@
 #!/bin/sh
 # H2Oh! installer. Run from a checkout:  ./install.sh
-# Or remotely (inspect it first!):  curl -fsSL https://raw.githubusercontent.com/OWNER/REPO/main/install.sh | REPO=https://github.com/OWNER/REPO sh
+# Or remotely (inspect it first!):  curl -fsSL https://raw.githubusercontent.com/ajayks012/H2Oh/main/install.sh | sh
 # Flags: --uninstall   remove the app and its autostart entry (config in ~/.config/waterreminder is kept)
 set -eu
 
-REPO="${REPO:-}"   # set when piping from curl; ignored when run inside a checkout
+REPO="${REPO:-https://github.com/ajayks012/H2Oh}"   # used when run outside a checkout (e.g. via curl)
 
 say() { printf '==> %s\n' "$*"; }
 die() { printf 'error: %s\n' "$*" >&2; exit 1; }
@@ -37,7 +37,7 @@ esac
 # Inside a checkout install that; otherwise install from $REPO.
 if [ -f "$(dirname "$0")/pyproject.toml" ] 2>/dev/null; then SRC="$(cd "$(dirname "$0")" && pwd)"
 elif [ -n "$REPO" ]; then SRC="git+$REPO"
-else die "run from a checkout, or set REPO=https://github.com/OWNER/REPO"; fi
+else die "no REPO set"; fi
 
 say "installing from $SRC"
 pipx install --force --system-site-packages "$SRC"   # system site packages: PyGObject comes from the distro

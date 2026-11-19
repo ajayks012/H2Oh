@@ -12,6 +12,10 @@ license = { text = "MIT" }
 # PyGObject is provided by the distro (python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1); pip-building it needs dev headers.
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/ajayks012/H2Oh"
+Issues = "https://github.com/ajayks012/H2Oh/issues"
+
 [project.scripts]
 waterreminderd = "waterreminder.daemon:main"
 waterreminder-popup = "waterreminder.popup:main"

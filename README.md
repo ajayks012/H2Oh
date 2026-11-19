@@ -26,12 +26,11 @@ pipx install --system-site-packages .       # or: python3 -m venv --system-site-
 ## Quick install (script)
 
 ```
-git clone https://github.com/OWNER/REPO && cd REPO && ./install.sh     # installs distro deps with sudo, then pipx
+git clone https://github.com/ajayks012/H2Oh && cd H2Oh && ./install.sh     # installs distro deps with sudo, then pipx
 ./install.sh --uninstall                                                 # removes the app and autostart entry
 ```
 `install.sh` supports the Debian/Ubuntu, Fedora, Arch and openSUSE families and stops with a clear message on others. It also works as
-`curl -fsSL <raw install.sh URL> | REPO=https://github.com/OWNER/REPO sh`; read the script before piping anything into `sh`.
-(Replace OWNER/REPO with the real GitHub path once pushed.)
+`curl -fsSL https://raw.githubusercontent.com/ajayks012/H2Oh/main/install.sh | sh`; read the script before piping anything into `sh`.
 
 ## Install per distro
 
@@ -45,7 +44,7 @@ Only PyGObject + GTK4 + libadwaita and a sound player (`pw-play` or `paplay`) ar
 | openSUSE | `sudo zypper install python3-gobject-Gdk typelib-1_0-Gtk-4_0 typelib-1_0-Adw-1 pipewire-tools python3-pipx` |
 
 ```
-git clone <this repo> && cd waterreminder
+git clone https://github.com/ajayks012/H2Oh && cd H2Oh
 pipx install --system-site-packages .     # puts the 3 commands in ~/.local/bin
 waterreminderd &                          # start now; or open Settings and turn on "Start at login"
 ```
