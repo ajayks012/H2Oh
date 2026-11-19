@@ -1,0 +1,4 @@
+#!/usr/bin/python3
+from waterreminder.settings import main
+import sys
+sys.exit(main())

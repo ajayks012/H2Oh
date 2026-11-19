@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=H2Oh!
+GenericName=Hydration reminder
+Comment=Drink-water reminders with a big popup and sound
+Exec=waterreminder-settings
+Icon=waterreminder
+Terminal=false
+Categories=Utility;GTK;
+Keywords=water;drink;reminder;health;

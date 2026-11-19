@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "waterreminder"
+version = "0.1.0"
+description = "Drink-water reminder with a big popup and sound for Linux desktops"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+# PyGObject is provided by the distro (python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1); pip-building it needs dev headers.
+dependencies = []
+
+[project.scripts]
+waterreminderd = "waterreminder.daemon:main"
+waterreminder-popup = "waterreminder.popup:main"
+waterreminder-settings = "waterreminder.settings:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+waterreminder = ["data/*/*", "data/*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

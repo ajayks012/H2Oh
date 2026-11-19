@@ -1,0 +1,12 @@
+[Unit]
+Description=H2Oh! daemon
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/waterreminderd
+Restart=on-failure
+# Needs WAYLAND_DISPLAY/DISPLAY: run `systemctl --user import-environment WAYLAND_DISPLAY DISPLAY` if popups do not appear.
+
+[Install]
+WantedBy=graphical-session.target

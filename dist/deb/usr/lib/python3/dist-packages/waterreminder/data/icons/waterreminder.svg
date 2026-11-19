@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="H2Oh! water drop">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fd4ff"/><stop offset="1" stop-color="#1676e0"/></linearGradient>
+  </defs>
+  <!-- drop -->
+  <path d="M64 6C64 6 20 56 20 84a44 44 0 0 0 88 0C108 56 64 6 64 6Z" fill="url(#body)" stroke="#0d47a1" stroke-width="4" stroke-linejoin="round"/>
+  <!-- highlight -->
+  <path d="M38 86a26 26 0 0 0 14 22" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".75"/>
+  <!-- surprised face: "Oh!" -->
+  <ellipse cx="50" cy="76" rx="5" ry="6.5" fill="#0d2a52"/><ellipse cx="78" cy="76" rx="5" ry="6.5" fill="#0d2a52"/>
+  <circle cx="51.5" cy="73.5" r="1.8" fill="#fff"/><circle cx="79.5" cy="73.5" r="1.8" fill="#fff"/>
+  <ellipse cx="64" cy="98" rx="7" ry="8.5" fill="#0d2a52"/><ellipse cx="64" cy="100" rx="4" ry="4.5" fill="#e8587a"/>
+</svg>

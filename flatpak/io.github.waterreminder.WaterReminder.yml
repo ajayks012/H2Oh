@@ -1,0 +1,31 @@
+# UNTESTED: flatpak-builder was not available when this was written.
+app-id: io.github.waterreminder.WaterReminder
+runtime: org.gnome.Platform
+runtime-version: '48'
+sdk: org.gnome.Sdk
+command: waterreminder-settings
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --socket=pulseaudio                      # pw-play/paplay talk to PipeWire-pulse
+  - --talk-name=org.freedesktop.portal.Desktop
+  - --talk-name=org.freedesktop.Notifications  # Notification portal (used via the notifications service)
+  - --talk-name=org.kde.StatusNotifierWatcher  # tray
+  - --system-talk-name=org.freedesktop.login1   # suspend/lock detection
+  - --own-name=org.kde.StatusNotifierItem-*
+modules:
+  - name: waterreminder
+    buildsystem: simple
+    build-commands:
+      - pip3 install --no-deps --prefix=/app .
+      - install -Dm644 data/waterreminder.desktop /app/share/applications/io.github.waterreminder.WaterReminder.desktop
+      - install -Dm644 data/waterreminder.svg /app/share/icons/hicolor/scalable/apps/io.github.waterreminder.WaterReminder.svg
+      - sed -i 's/^Icon=.*/Icon=io.github.waterreminder.WaterReminder/' /app/share/applications/io.github.waterreminder.WaterReminder.desktop
+    sources:
+      - type: dir
+        path: ..
+# Autostart in a sandbox: use the Background portal (org.freedesktop.portal.Background.RequestBackground
+# with autostart=true, commandline=['waterreminderd']) instead of ~/.config/autostart. The in-app switch
+# currently writes the XDG autostart file only, so under Flatpak it will not take effect: known gap.
+# gtk4-layer-shell is not in the GNOME runtime; add a module for it to get overlay popups on wlroots/KDE.

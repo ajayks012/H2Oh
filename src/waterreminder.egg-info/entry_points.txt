@@ -1,0 +1,4 @@
+[console_scripts]
+waterreminder-popup = waterreminder.popup:main
+waterreminder-settings = waterreminder.settings:main
+waterreminderd = waterreminder.daemon:main
